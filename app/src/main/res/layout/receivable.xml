@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    android:fitsSystemWindows="true"
+    tools:context=".ReceivablesActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/receivable_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="0dp"
+        app:titleTextAppearance="@style/TitleTheme"
+        app:title=" ">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="收款方"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_below="@id/receivable_toolbar"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/client_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="#000000"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="--"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/input_container"
+                android:text="输入收款金额" />
+
+            <LinearLayout
+                android:id="@+id/input_container"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_above="@id/insert_line"
+                android:orientation="horizontal"
+                android:gravity="left|bottom"
+                android:clipChildren="true"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:layout_marginTop="3dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rmb_2" />
+
+                <EditText
+                    android:id="@+id/amount_input"
+                    android:layout_width="0dp"
+                    android:layout_weight="8.2"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:isScrollContainer="false"
+                    android:gravity="center_vertical|left"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@drawable/edit_shape"
+                    android:textSize="45dp"/>
+
+                <LinearLayout
+                    android:id="@+id/clear_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:clipChildren="false"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/close" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/insert_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#E9E9E9"
+                android:layout_marginBottom="15dp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+<!--    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_panel"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
+        android:text="选择支付方式" />-->
+
+    <LinearLayout
+        android:id="@+id/types"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_below="@id/top_panel"
+        android:layout_marginTop="20dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:gravity="top|center_horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <RelativeLayout
+            android:id="@+id/zfb_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:background="@drawable/item_bg"
+            android:gravity="left|center_vertical" >
+            <ImageView
+                android:id="@+id/zfb_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/zfb_3"/>
+            <TextView
+                android:id="@+id/zfb_txt"
+                android:layout_toRightOf="@id/zfb_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝"
+                android:textSize="18sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@android:color/black"/>
+
+            <ImageView
+                android:id="@+id/zfb_check"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/unchecked"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:background="@drawable/item_bg"
+            android:gravity="left|center_vertical" >
+            <ImageView
+                android:id="@+id/hbfq_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/hb_3"/>
+            <TextView
+                android:id="@+id/hbfq_txt"
+                android:layout_toRightOf="@id/hbfq_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="花呗分期"
+                android:textSize="18sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/hbfq_per"
+                android:layout_width="46dp"
+                android:layout_height="23dp"
+                android:layout_toRightOf="@id/hbfq_txt"
+                android:background="@drawable/hbfqper_bg"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:layout_marginTop="2dp"
+                android:textColor="#ffffff"
+                android:visibility="invisible"
+                android:text="免息"/>
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/hbfq_list"
+            android:layout_width="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:layout_height="110dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/scan_rec_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/scan_rec"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:text="扫码收款" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/qr_rec_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_2"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/qr_rec"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:text="二维码收款" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/qr_code_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#ffffff">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:src="@drawable/p_t"
+            android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitEnd"
+            android:src="@drawable/p_b"
+            android:layout_alignParentBottom="true"/>
+        
+        <RelativeLayout
+            android:id="@+id/qr_code_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_centerVertical="true">
+            <com.github.ybq.android.spinkit.SpinKitView
+                android:id="@+id/qr_code_loading"
+                style="@style/SpinKitView.CubeGrid"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true"
+                app:SpinKit_Color="#7f00A0E9" />
+            <ImageView
+                android:id="@+id/qr_code_bed"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/qr_code_pay_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/qr_code_container"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text=""/>
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/qr_code_pay_waiting"
+            style="@style/SpinKitView.ThreeBounce"
+            android:layout_below="@id/qr_code_pay_hint"
+            android:layout_centerHorizontal="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:visibility="invisible"
+            app:SpinKit_Color="#FF6347" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/result_alert_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#af000000">
+        
+        <LinearLayout
+            android:clickable="false"
+            android:layout_width="260dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical"
+            android:background="#ffffff">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="56dp"
+                android:src="@drawable/hb_2"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/result_alert_status"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#00A0E9"
+                android:text=""/>
+
+            <com.github.ybq.android.spinkit.SpinKitView
+                android:id="@+id/result_alert_waiting"
+                style="@style/SpinKitView.ThreeBounce"
+                android:layout_centerHorizontal="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="invisible"
+                app:SpinKit_Color="#FF6347" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/rmb_2" />
+                <TextView
+                    android:id="@+id/result_alert_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35dp"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="5dp"
+                    android:text="0.00"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:layout_marginTop="20dp"
+                android:text="收款方"/>
+
+            <TextView
+                android:id="@+id/result_alert_client_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="17dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:text=""/>
+
+        </LinearLayout>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

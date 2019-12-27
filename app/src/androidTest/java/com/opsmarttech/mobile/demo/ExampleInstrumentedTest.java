@@ -123,7 +123,9 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testQuery() {
-        JSONObject jsonObject = Hbfq.query("5510b6db_0326_4e2b_b009_fe5e81516720", "2088901200045560");
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        context.getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, Context.MODE_PRIVATE).edit().putString(Constants.DEVICE_MEID, "PE18197C61939").commit();
+        JSONObject jsonObject = Hbfq.query(context, "0431f864_16ac_4cee_9a2b_ff68a24920fc");
         String tradeResult = "";
         try {
             JSONObject queryJson = jsonObject.getJSONObject("alipay_trade_query_response");

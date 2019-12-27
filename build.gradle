@@ -1,4 +1,6 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    var = 'D:\\workspace\\androidpros\\hbfq-demo\\opsmarttech-hbfq-pos.jks'
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {

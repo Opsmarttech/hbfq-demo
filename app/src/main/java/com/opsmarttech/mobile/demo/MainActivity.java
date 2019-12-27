@@ -1,25 +1,21 @@
 package com.opsmarttech.mobile.demo;
 
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.opsmarttech.mobile.api.core.constant.Constants;
 import com.opsmarttech.mobile.api.core.http.TradeParam;
@@ -38,8 +34,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private static final int CALL_READ_PHONE_STATE = 0xA;
-    private String deviceMeid;
-
+    private String deviceSN;
     private TextView respCont;
     private ProgressBar wait;
     private Button scanBtn;
@@ -59,28 +54,20 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         scanBtn = (Button) findViewById(R.id.scanBtn);
         qrBtn = (Button) findViewById(R.id.qrBtn);
         imgv = (ImageView) findViewById(R.id.qrImg);
-
         scanBtn.setOnClickListener(mClk);
         qrBtn.setOnClickListener(mClk);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initConfigInfo() {
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (Build.VERSION.SDK_INT >= 23) {
-            String[] mPermissionList = new String[]{Manifest.permission.READ_PHONE_STATE};
-            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-                deviceMeid = tm.getMeid();
-                getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).edit().putString(Constants.DEVICE_MEID, deviceMeid).commit();
-                String readIt = getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).getString(Constants.DEVICE_MEID, "--");
-                System.out.println("-------->" + readIt);
-                Toast.makeText(this, deviceMeid, Toast.LENGTH_LONG).show();
-            } else {
-                EasyPermissions.requestPermissions(MainActivity.this, "hbfq need to bind device to complete payment!", CALL_READ_PHONE_STATE, mPermissionList);
-            }
+        String[] mPermissionList = new String[]{Manifest.permission.READ_PHONE_STATE};
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            deviceSN = Build.SERIAL;
+            getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).edit().putString(Constants.DEVICE_MEID, deviceSN).commit();
+            String readIt = getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).getString(Constants.DEVICE_MEID, "--");
+            System.out.println("-------->" + readIt);
+            Toast.makeText(this, deviceSN, Toast.LENGTH_LONG).show();
         } else {
-            deviceMeid = tm.getMeid();
-            Toast.makeText(this, deviceMeid, Toast.LENGTH_LONG).show();
+            EasyPermissions.requestPermissions(MainActivity.this, "need to bind device to complete payment!", CALL_READ_PHONE_STATE, mPermissionList);
         }
     }
 
@@ -89,13 +76,11 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
         if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            deviceMeid = tm.getMeid();
-            getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).edit().putString(Constants.DEVICE_MEID, deviceMeid).commit();
+            deviceSN = Build.SERIAL;
+            getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).edit().putString(Constants.DEVICE_MEID, deviceSN).commit();
         }
         String readIt = getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).getString(Constants.DEVICE_MEID, "--");
         Toast.makeText(this, readIt, Toast.LENGTH_LONG).show();
@@ -187,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     }
 
                     timer = new Timer();
-                    timer.schedule(new MyTask(outTradeNo, storeId), 0, 3000);
+                    timer.schedule(new MyTask(outTradeNo), 0, 3000);
 
                     new Timer().schedule(new TimerTask() {
                         @Override
@@ -241,17 +226,15 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private class MyTask extends TimerTask {
 
         private String outTradeNo;
-        private String storeId;
 
-        public MyTask(String outTradeNo, String storeId) {
+        public MyTask(String outTradeNo) {
             this.outTradeNo = outTradeNo;
-            this.storeId = storeId;
         }
 
         @Override
         public void run() {
 
-            JSONObject jsonObject = Hbfq.query(outTradeNo, storeId);
+            JSONObject jsonObject = Hbfq.query(MainActivity.this, outTradeNo);
 
             Message msg = myHandelr.obtainMessage();
             msg.what = 0x3;
