@@ -346,28 +346,58 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/result_alert_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="100"
         android:background="#af000000">
-        
+
         <LinearLayout
             android:clickable="false"
-            android:layout_width="260dp"
-            android:layout_height="300dp"
+            android:layout_width="270dp"
+            android:layout_height="0dp"
+            android:layout_weight="70"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal|top"
             android:orientation="vertical"
-            android:background="#ffffff">
+            android:background="@drawable/scan_alert_bg">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="56dp"
-                android:src="@drawable/hb_2"
-                android:layout_marginTop="20dp"
-                android:layout_centerHorizontal="true"/>
+            <RelativeLayout
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/status_title_bg">
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/result_alert_waiting"
+                    style="@style/SpinKitView.ThreeBounce"
+                    android:layout_centerInParent="true"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:visibility="invisible"
+                    app:SpinKit_Color="#ffffff" />
+
+                <ImageView
+                    android:id="@+id/rt_status"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible"
+                    android:src="@drawable/rt" />
+
+                <ImageView
+                    android:id="@+id/w_status"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="invisible"
+                    android:src="@drawable/w" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/result_alert_status"
@@ -376,24 +406,16 @@
                 android:maxLines="1"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_marginTop="10dp"
+                android:textSize="15dp"
+                android:layout_marginTop="15dp"
                 android:textColor="#00A0E9"
                 android:text=""/>
-
-            <com.github.ybq.android.spinkit.SpinKitView
-                android:id="@+id/result_alert_waiting"
-                style="@style/SpinKitView.ThreeBounce"
-                android:layout_centerHorizontal="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:visibility="invisible"
-                app:SpinKit_Color="#FF6347" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
                 <ImageView
                     android:layout_width="23dp"
@@ -416,9 +438,31 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:gravity="center"
-                android:textStyle="bold"
+                android:textSize="13dp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="15dp"
+                android:text="订单号"/>
+
+            <TextView
+                android:id="@+id/out_order_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textSize="15dp"
-                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_marginTop="8dp"
+                android:textColor="#000000"
+                android:text=""/>
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:gravity="center"
+                android:textSize="13dp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="15dp"
                 android:text="收款方"/>
 
             <TextView
@@ -427,13 +471,23 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="17dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:textStyle="bold"
                 android:textColor="#000000"
                 android:text=""/>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/result_alert_close"
+            android:visibility="invisible"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:scaleType="fitEnd"
+            android:src="@drawable/close_2"
+            android:layout_marginTop="10dp"/>
         
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -75,6 +75,10 @@ public class ReceivablesActivity extends AppCompatActivity {
     private TextView resultAlertAmoutTxv;
     private TextView resultAlertClientNameTxv;
     private TextView resultAlertStatusTxv;
+    private TextView resultAlertOrderCodeTxv;
+    private ImageView rtImgv;
+    private ImageView wImgv;
+    private View resultAlertClosev;
 
     private int hbfqPer = 0;
     private int hbfqNum = 0;
@@ -90,11 +94,11 @@ public class ReceivablesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Window window = getWindow();
+        window.setStatusBarColor(Color.parseColor("#000000"));
+        window.setNavigationBarColor(Color.parseColor("#000000"));
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.parseColor("#000000"));
-        window.setNavigationBarColor(Color.parseColor("#000000"));
 
         setContentView(R.layout.receivable);
         Toolbar toolbar = findViewById(R.id.receivable_toolbar);
@@ -162,6 +166,12 @@ public class ReceivablesActivity extends AppCompatActivity {
         resultAlertView.setOnClickListener(onClk);
 
         resultInfoWaiting = findViewById(R.id.result_alert_waiting);
+
+        rtImgv = findViewById(R.id.rt_status);
+        wImgv = findViewById(R.id.w_status);
+        resultAlertOrderCodeTxv = findViewById(R.id.out_order_number);
+        resultAlertClosev = findViewById(R.id.result_alert_close);
+        resultAlertClosev.setOnClickListener(onClk);
 
     }
 
@@ -272,12 +282,17 @@ public class ReceivablesActivity extends AppCompatActivity {
                     startActivityForResult(intent, START_SCAN);
                     break;
                 case R.id.result_alert_layer:
-                    if(mTimer != null) {
-                        mTimer.purge();
-                        mTimer.cancel();
-                        mTimer = null;
+                    Log.i(TAG, "nothing todo ");
+                    break;
+                case R.id.result_alert_close:
+                    if(resultAlertView.getVisibility() == View.VISIBLE) {
+                        resultAlertView.setVisibility(View.GONE);
+                        if(mTimer != null) {
+                            mTimer.purge();
+                            mTimer.cancel();
+                            mTimer = null;
+                        }
                     }
-                    resultAlertView.setVisibility(View.GONE);
                     break;
             }
         }
@@ -357,24 +372,15 @@ public class ReceivablesActivity extends AppCompatActivity {
             qrBitmap = null;
             qrCodeLoading.setVisibility(View.VISIBLE);
             qrCodeWaiting.setVisibility(View.INVISIBLE);
-
             if(mTimer != null) {
                 mTimer.purge();
                 mTimer.cancel();
                 mTimer = null;
             }
-
             return;
         }
 
         if(resultAlertView.getVisibility() == View.VISIBLE) {
-            resultAlertView.setVisibility(View.GONE);
-
-            if(mTimer != null) {
-                mTimer.purge();
-                mTimer.cancel();
-                mTimer = null;
-            }
             return;
         }
 
@@ -415,6 +421,10 @@ public class ReceivablesActivity extends AppCompatActivity {
                     mTimer.schedule(new MyTask(outTradeCode), 0, 2000);
                     queryStartTimestamp = new Date().getTime();
 
+                    resultAlertAmoutTxv.setText(amountEdtv.getText());
+                    resultAlertOrderCodeTxv.setText(outTradeCode);
+                    resultAlertClientNameTxv.setText(clientTitle);
+
                     break;
                 case 0x3:
 
@@ -444,40 +454,54 @@ public class ReceivablesActivity extends AppCompatActivity {
                             if(currentPayMode == QR_TOPAY) {
                                 qrCodePayHintTxv.setTextColor(Color.parseColor("#FF6347"));
                                 qrCodePayHintTxv.setText("等待用户扫取识别二维码");
-                            } else if(currentPayMode == SCAN_TOPAY) {
-                                resultAlertStatusTxv.setTextColor(Color.parseColor("#FF6347"));
-                                resultAlertStatusTxv.setText("交易超时，收款失败");
                             }
+                            resultAlertStatusTxv.setTextColor(Color.parseColor("#FF6347"));
+                            resultAlertStatusTxv.setText("交易超时，收款失败");
+
                             if(currentTimestamp - queryStartTimestamp > 60000) {
                                 if(currentPayMode == QR_TOPAY) {
                                     qrCodePayHintTxv.setTextColor(Color.parseColor("#000000"));
                                     qrCodePayHintTxv.setText("未付款交易超时已关闭，请刷新二维码重新支付");
-                                } else if(currentPayMode == SCAN_TOPAY) {
-                                    resultAlertStatusTxv.setTextColor(Color.parseColor("#FF6347"));
-                                    resultAlertStatusTxv.setText("交易超时，收款失败");
                                 }
+
+                                rtImgv.setVisibility(View.INVISIBLE);
+                                wImgv.setVisibility(View.VISIBLE);
+                                resultAlertStatusTxv.setTextColor(Color.parseColor("#FF6347"));
+                                resultAlertStatusTxv.setText("交易超时，收款失败");
+
                                 message = mUIHandler.obtainMessage();
                                 message.what = 0x4;
                                 message.sendToTarget();
                             }
+
                             break;
                         case "WAIT_BUYER_PAY":
+
                             if(currentPayMode == QR_TOPAY) {
                                 qrCodePayHintTxv.setTextColor(Color.parseColor("#FF6347"));
                                 qrCodePayHintTxv.setText("等待用户付款中...");
-                            } else if(currentPayMode == SCAN_TOPAY) {
-                                resultAlertStatusTxv.setTextColor(Color.parseColor("#FF6347"));
-                                resultAlertStatusTxv.setText("等待用户付款中...");
                             }
+
+                            qrCodeLayer.setVisibility(View.GONE);
+                            resultInfoWaiting.setVisibility(View.VISIBLE);
+                            resultAlertView.setVisibility(View.VISIBLE);
+                            rtImgv.setVisibility(View.INVISIBLE);
+                            wImgv.setVisibility(View.INVISIBLE);
+                            resultAlertStatusTxv.setTextColor(Color.parseColor("#FF6347"));
+                            resultAlertStatusTxv.setText("等待用户付款中...");
+
                             break;
                         case "TRADE_FINISHED":
                             if(currentPayMode == QR_TOPAY) {
                                 qrCodePayHintTxv.setTextColor(Color.parseColor("#000000"));
                                 qrCodePayHintTxv.setText("交易已结束，不可退款");
-                            } else if(currentPayMode == SCAN_TOPAY) {
-                                resultAlertStatusTxv.setTextColor(Color.parseColor("#000000"));
-                                resultAlertStatusTxv.setText("交易已结束，不可退款");
                             }
+
+                            rtImgv.setVisibility(View.INVISIBLE);
+                            wImgv.setVisibility(View.VISIBLE);
+                            resultAlertStatusTxv.setTextColor(Color.parseColor("#000000"));
+                            resultAlertStatusTxv.setText("交易已结束，不可退款");
+
                             message = mUIHandler.obtainMessage();
                             message.what = 0x4;
                             message.sendToTarget();
@@ -486,11 +510,14 @@ public class ReceivablesActivity extends AppCompatActivity {
                             if(currentPayMode == QR_TOPAY) {
                                 qrCodePayHintTxv.setTextColor(Color.parseColor("#008B45"));
                                 qrCodePayHintTxv.setText("交易支付成功");
-                            } else if(currentPayMode == SCAN_TOPAY) {
-                                resultAlertStatusTxv.setTextColor(Color.parseColor("#008B45"));
-                                resultAlertStatusTxv.setText("收款成功");
-                                resultAlertAmoutTxv.setText(totalAmount);
                             }
+
+                            rtImgv.setVisibility(View.VISIBLE);
+                            wImgv.setVisibility(View.INVISIBLE);
+                            resultAlertStatusTxv.setTextColor(Color.parseColor("#008B45"));
+                            resultAlertStatusTxv.setText("收款成功");
+                            resultAlertAmoutTxv.setText(totalAmount);
+
                             message = mUIHandler.obtainMessage();
                             message.what = 0x4;
                             message.sendToTarget();
@@ -500,10 +527,13 @@ public class ReceivablesActivity extends AppCompatActivity {
                             if(currentPayMode == QR_TOPAY) {
                                 qrCodePayHintTxv.setTextColor(Color.parseColor("#000000"));
                                 qrCodePayHintTxv.setText("未付款交易超时已关闭，请刷新二维码重新支付");
-                            } else if(currentPayMode == SCAN_TOPAY) {
-                                resultAlertStatusTxv.setTextColor(Color.parseColor("#000000"));
-                                resultAlertStatusTxv.setText("收款失败，交易超时已关闭");
                             }
+
+                            rtImgv.setVisibility(View.INVISIBLE);
+                            wImgv.setVisibility(View.VISIBLE);
+                            resultAlertStatusTxv.setTextColor(Color.parseColor("#000000"));
+                            resultAlertStatusTxv.setText("收款失败，交易超时已关闭");
+
                             message = mUIHandler.obtainMessage();
                             message.what = 0x4;
                             message.sendToTarget();
@@ -520,12 +550,16 @@ public class ReceivablesActivity extends AppCompatActivity {
                         mTimer.cancel();
                         mTimer = null;
                     }
+                    resultAlertClosev.setVisibility(View.VISIBLE);
+
                     break;
                 case 0x5:
 
                     JSONObject scanResObj = (JSONObject) msg.obj;
 
                     if(scanResObj != null) {
+                        rtImgv.setVisibility(View.INVISIBLE);
+                        wImgv.setVisibility(View.INVISIBLE);
                         resultInfoWaiting.setVisibility(View.VISIBLE);
                         resultAlertView.setVisibility(View.VISIBLE);
                         resultAlertClientNameTxv.setText(clientTitle);
@@ -538,6 +572,9 @@ public class ReceivablesActivity extends AppCompatActivity {
                             resultTotalPay = scanResObj.getDouble("total_amount");
                             resultCode = scanResObj.getString("code");
                             resultOutTradeCode = scanResObj.getString("out_trade_no");
+
+                            resultAlertAmoutTxv.setText(String.valueOf(resultTotalPay));
+                            resultAlertOrderCodeTxv.setText(resultOutTradeCode);
 
                             if("10000".equals(resultCode) || "10003".equals(resultCode)) {
                                 if(mTimer != null) {
