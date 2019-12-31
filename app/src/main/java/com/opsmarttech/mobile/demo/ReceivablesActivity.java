@@ -79,6 +79,7 @@ public class ReceivablesActivity extends AppCompatActivity {
     private ImageView rtImgv;
     private ImageView wImgv;
     private View resultAlertClosev;
+    private View backBtnv;
 
     private int hbfqPer = 0;
     private int hbfqNum = 0;
@@ -103,7 +104,8 @@ public class ReceivablesActivity extends AppCompatActivity {
         setContentView(R.layout.receivable);
         Toolbar toolbar = findViewById(R.id.receivable_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+
         sharedPreferences = getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE);
 
         deviceSN = sharedPreferences.getString(Constants.DEVICE_MEID, null);
@@ -172,6 +174,9 @@ public class ReceivablesActivity extends AppCompatActivity {
         resultAlertOrderCodeTxv = findViewById(R.id.out_order_number);
         resultAlertClosev = findViewById(R.id.result_alert_close);
         resultAlertClosev.setOnClickListener(onClk);
+
+        backBtnv = findViewById(R.id.back_btn);
+        backBtnv.setOnClickListener(onClk);
 
     }
 
@@ -293,6 +298,9 @@ public class ReceivablesActivity extends AppCompatActivity {
                             mTimer = null;
                         }
                     }
+                    break;
+                case R.id.back_btn:
+                    onBackPressed();
                     break;
             }
         }
