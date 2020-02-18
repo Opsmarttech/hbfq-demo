@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.opsmarttech.mobile.demo">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.opsmarttech.mobile">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -11,11 +12,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true" >
+        android:supportsRtl="true"
+        tools:ignore="GoogleAppIndexingWarning">
+
 <!--        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,16 +28,37 @@
             </intent-filter>
         </activity>-->
 
-        <activity android:name=".SplashActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        <activity android:name=".activity.SplashActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ReceivablesActivity" android:theme="@style/AppTheme" android:launchMode="singleInstance" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".activity.ReceivablesActivity" android:theme="@style/AppTheme" android:launchMode="singleInstance">
             <intent-filter>
-                <action android:name="com.opsmarttech.mobile.demo.ReceivablesActivity" />
+                <action android:name="com.opsmarttech.mobile.activity.ReceivablesActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.IndexActivity" android:theme="@style/AppTheme" android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="com.opsmarttech.mobile.activity.IndexActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.CounterActivity" android:theme="@style/AppTheme" android:launchMode="singleInstance" android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="com.opsmarttech.mobile.activity.CounterActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.StatsActivity" android:theme="@style/AppTheme" android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="com.opsmarttech.mobile.activity.StatsActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

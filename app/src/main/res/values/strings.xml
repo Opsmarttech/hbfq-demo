@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">hbfq-demo</string>
+    <string name="app_name">花呗分期</string>
+    <drawable name="clr_normal">#00ffffff</drawable>
+    <drawable name="clr_pressed">#3fA4D3EE</drawable>
+    <string name="scan_to_pay">扫码收款</string>
+    <string name="scan_hint">"扫取用户支付宝付款码收款"</string>
+    <string name="qrcode_to_pay">生成二维码</string>
+    <string name="qrcode_hint">请用户使用支付宝扫取二维码</string>
+    <string name="swape_to_pay">刷取信用卡</string>
+    <string name="swape_hint_a">支持银联信用卡</string>
+    <string name="swape_hint_b">不支持招商银行、浦发银行、交通银行</string>
+    <string name="state_per_ser">每期金额：  %1$.2f元(%2$.2f元手续费)</string>
+    <string name="state_ins_num">分期笔数：  %1$d期</string>
+    <string name="state_payfor">支付金额：  ￥%1$s</string>
+    <string name="state_res_order">订单编号：  %1$s</string>
+    <string name="state_user_id">用户ID:  %1$s</string>
+    <string name="state_user_account">用户账号：  %1$s</string>
+    <string name="state_hint_wait_user_pay">等待用户付款中</string>
+    <string name="state_hint_wait_qr_loading">二维码加载中</string>
+    <string name="state_hint_wait_user_scan_qr">等待用户扫取二维码</string>
+    <string name="state_hint_scan_qr">请使用支付宝扫码完成付款</string>
+    <string name="state_hint_wait_user_swape">请刷卡</string>
+    <string name="state_hint_failed">收款失败，交易已关闭</string>
+    <string name="state_hint_success">收款成功</string>
+    <string name="state_hint_trade_finish">交易已结束，不可退款</string>
+    <string name="state_hint_scan_qr_2">请扫码完成付款</string>
 </resources>

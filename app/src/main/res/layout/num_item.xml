@@ -3,45 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="70dp"
     android:background="@android:color/transparent"
     android:fitsSystemWindows="true"
     tools:context="com.opsmarttech.mobile.activity.ReceivablesActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@drawable/item_bg"
-        android:layout_marginLeft="45dp">
+        android:layout_height="70dp"
+        android:background="@drawable/item_bg">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:orientation="vertical"
-            android:weightSum="2"
-            android:layout_marginBottom="8dp"
-            android:gravity="top|left">
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|left">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="25dp"
                 android:orientation="horizontal"
                 android:gravity="bottom|left">
                 <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:scaleType="fitEnd"
                     android:layout_marginBottom="2dp"
                     android:src="@drawable/rmb"/>
                 <TextView
-                    android:id="@+id/hbfq_item_money"
+                    android:id="@+id/item_money"
                     android:layout_width="wrap_content"
                     android:layout_height="18dp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="2dp"
                     android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:text="00.00"/>
+                    android:textSize="15sp"
+                    android:text="0.00"/>
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
@@ -50,41 +48,43 @@
                     android:layout_marginBottom="2dp"
                     android:src="@drawable/x"/>
                 <TextView
-                    android:id="@+id/hbfq_item_sep"
-                    android:layout_width="wrap_content"
-                    android:layout_height="19dp"
+                    android:id="@+id/item_sep"
+                    android:layout_width="40dp"
+                    android:layout_height="18dp"
                     android:textColor="@android:color/black"
                     android:layout_marginLeft="6dp"
-                    android:textSize="16dp"
-                    android:text="0 期"/>
+                    android:textSize="15sp"
+                    android:text="0期"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="25dp"
                 android:orientation="horizontal"
-                android:gravity="bottom|left"
-                android:layout_weight="1" >
+                android:gravity="bottom|left">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:textSize="16dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/C666666"
                     android:text="每期手续费:"/>
                 <TextView
-                    android:id="@+id/hbfq_item_serv"
+                    android:id="@+id/item_serv"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:textSize="16dp"
-                    android:text="0 元"/>
+                    android:textSize="15sp"
+                    android:textColor="@color/C666666"
+                    android:text=" 0元"/>
             </LinearLayout>
         </LinearLayout>
+
         <ImageView
-            android:id="@+id/hbfq_item_check"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:scaleType="fitStart"
-            android:src="@drawable/unchecked"
+            android:id="@+id/item_check"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:scaleType="fitStart"
+            android:src="@drawable/unchecked" />
     </RelativeLayout>
 
 </RelativeLayout>

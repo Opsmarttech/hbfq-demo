@@ -1,14 +1,13 @@
-package com.opsmarttech.mobile.demo.adapter;
+package com.opsmarttech.mobile.adapter;
 
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.opsmarttech.mobile.demo.R;
+import com.opsmarttech.mobile.R;
 
 import java.util.ArrayList;
 import java.util.List;

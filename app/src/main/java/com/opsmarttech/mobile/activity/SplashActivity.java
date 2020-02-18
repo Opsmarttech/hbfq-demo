@@ -1,10 +1,9 @@
-package com.opsmarttech.mobile.demo;
+package com.opsmarttech.mobile.activity;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,14 +17,16 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.opsmarttech.mobile.api.core.constant.Constants;
+import com.opsmarttech.mobile.R;
 import com.opsmarttech.mobile.service.Hbfq;
 
 import org.json.JSONObject;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -40,6 +41,7 @@ public class SplashActivity extends Activity implements EasyPermissions.Permissi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         window.setStatusBarColor(Color.TRANSPARENT);
@@ -55,33 +57,41 @@ public class SplashActivity extends Activity implements EasyPermissions.Permissi
             @Override
             public void run() {
                 String deviceSN = checkDeviceSN();
-                String clientTitle = null;//checkClientInfo();
                 Message msg = mUIHandler.obtainMessage();
-                if(TextUtils.isEmpty(clientTitle)) {
-                    JSONObject jsonObject = Hbfq.fetchClientInfo(null, deviceSN);
-                    try {
-                        clientTitle = jsonObject.getString("clientTitle");
-                        if(TextUtils.isEmpty(clientTitle) || "[error : device unbind]".equals(clientTitle)) {
-                            String errorInfo = clientTitle;
-                            msg.what = 0x2;
-                            msg.obj = errorInfo;
-                        } else {
-                            String hbfqNum = jsonObject.getString("hbfqNum");
-                            int hbfqSellerPercent = jsonObject.getInt("hbfqSellerPercent");
-                            mSharedPreferences.edit().putString(Constants.CLIENT_TITLE, clientTitle).commit();
-                            mSharedPreferences.edit().putString(Constants.CLIENT_HBFQ_NUM, hbfqNum).commit();
-                            mSharedPreferences.edit().putInt(Constants.CLIENT_HBFQ_PER, hbfqSellerPercent).commit();
-                            msg.what = 0x1;
+                JSONObject jsonObject = Hbfq.fetchClientInfo(null, deviceSN);
+                try {
+                    boolean status = jsonObject.getBoolean("status");
+                    if(status) {
+                        String clientTitle = jsonObject.getString("clientTitle");
+                        mSharedPreferences.edit().putString(Constants.CLIENT_TITLE, clientTitle).apply();
+                        Set<String> typeSet = new HashSet<>();
+                        if(jsonObject.has("001")) {
+                            typeSet.add("001");
+                            JSONObject antCreditMerchant = jsonObject.getJSONObject("001");
+                            antCreditMerchant.put("tradeType", "001");
+                            mSharedPreferences.edit().putString("001", antCreditMerchant.toString()).apply();
                         }
-                        msg.sendToTarget();
-                    } catch (Exception e) {
-                        Log.e(TAG, e.toString());
-                        e.printStackTrace();
+                        if(jsonObject.has("002")) {
+                            typeSet.add("002");
+                            JSONObject fundshareMerChant = jsonObject.getJSONObject("002");
+                            fundshareMerChant.put("tradeType", "002");
+                            mSharedPreferences.edit().putString("002", fundshareMerChant.toString()).apply();
+                        }
+                        mSharedPreferences.edit().putStringSet("tradeTypes", typeSet).apply();
+                        msg.what = 0x1;
+                    } else {
+                        String errorInfo = jsonObject.getString("message");
+                        msg.what = 0x2;
+                        msg.obj = errorInfo;
                     }
-                } else {
-                    msg.what = 0x1;
                     msg.sendToTarget();
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                    e.printStackTrace();
+                    msg.what = 0x2;
+                    msg.obj = e.toString();
                 }
+
             }
         }).start();
 
@@ -127,7 +137,7 @@ public class SplashActivity extends Activity implements EasyPermissions.Permissi
             deviceSN = Build.SERIAL;
         }
         if(!TextUtils.isEmpty(deviceSN)) {
-            getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).edit().putString(Constants.DEVICE_MEID, deviceSN).commit();
+            getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE).edit().putString(Constants.DEVICE_MEID, deviceSN).apply();
         }
         return deviceSN;
     }
@@ -153,7 +163,7 @@ public class SplashActivity extends Activity implements EasyPermissions.Permissi
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0x1:
-                    startActivity(new Intent("com.opsmarttech.mobile.demo.ReceivablesActivity"));
+                    startActivity(new Intent("com.opsmarttech.mobile.activity.IndexActivity"));
                     postDelayed(new Runnable() {
                         @Override
                         public void run() {

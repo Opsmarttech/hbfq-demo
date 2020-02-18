@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    android:fitsSystemWindows="true"
+    tools:context="com.opsmarttech.mobile.activity.CounterActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/receivable_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#ffffff"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="0dp"
+        android:padding="0dp"
+        app:titleTextAppearance="@style/TitleTheme"
+        app:title=" ">
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="134dp"
+        android:layout_below="@id/receivable_toolbar"
+        android:background="#ffffff" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:text="输入收款金额" />
+
+            <LinearLayout
+                android:id="@+id/input_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_above="@id/insert_line"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:clipChildren="false"
+                android:padding="0dp"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="41dp"
+                    android:layout_weight="0.8"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rmb_2" />
+
+                <EditText
+                    android:id="@+id/amount_input"
+                    android:layout_width="0dp"
+                    android:layout_weight="8.2"
+                    android:layout_height="60dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:isScrollContainer="false"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@drawable/edit_shape"
+                    android:text=""
+                    android:textSize="50sp"/>
+
+                <LinearLayout
+                    android:id="@+id/clear_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:clipChildren="false"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/close" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/insert_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#E9E9E9"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="17dp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/sel_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_panel"
+        android:layout_marginTop="19dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:text="选择支付方式" />
+
+    <LinearLayout
+        android:id="@+id/types"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sel_hint"
+        android:layout_marginTop="8dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:gravity="top|center_horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <RelativeLayout
+            android:id="@+id/zfb_btn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:background="@drawable/item_bg"
+            android:gravity="left|center_vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/zfb_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/zfb_3"/>
+            <TextView
+                android:id="@+id/zfb_txt"
+                android:layout_toRightOf="@id/zfb_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝"
+                android:textSize="18sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@android:color/black"/>
+
+            <ImageView
+                android:id="@+id/zfb_check"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/unchecked"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:background="@drawable/item_bg"
+            android:gravity="left|center_vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/hbfq_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/hb_3"/>
+
+            <TextView
+                android:id="@+id/hbfq_txt"
+                android:layout_toRightOf="@id/hbfq_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="花呗分期"
+                android:textSize="18sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/hbfq_per"
+                android:layout_width="46dp"
+                android:layout_height="23dp"
+                android:layout_toRightOf="@id/hbfq_txt"
+                android:background="@drawable/hbfqper_bg"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:layout_marginTop="2dp"
+                android:textColor="#ffffff"
+                android:visibility="invisible"
+                android:text="免息"/>
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/pay_num_list"
+            android:layout_width="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:minHeight="70dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="top|center_horizontal">
+
+        <LinearLayout
+            android:id="@+id/pay_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_bg_1"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/pay_type_img"
+                android:layout_width="16dp"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:id="@+id/pay_type_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="#ffffff"
+                android:textSize="13sp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="收款" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/pay_hint_a"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="20dp"
+            android:textSize="13sp"
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:gravity="center"
+            android:text="hint_1"/>
+
+        <TextView
+            android:id="@+id/pay_hint_b"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textSize="13sp"
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:gravity="center"
+            android:text="hint_2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/back_btn"
+        android:layout_width="80dp"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_vertical|left"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:layout_width="21dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="18dp"
+            android:layout_gravity="center_vertical|left"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back"/>
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:text="首页"
+            android:textSize="18sp"
+            android:gravity="left|center_vertical"
+            android:textColor="#00A0E9"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

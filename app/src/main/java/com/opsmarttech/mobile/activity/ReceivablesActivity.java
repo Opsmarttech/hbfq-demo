@@ -1,4 +1,4 @@
-package com.opsmarttech.mobile.demo;
+package com.opsmarttech.mobile.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +30,8 @@ import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.opsmarttech.mobile.api.core.constant.Constants;
 import com.opsmarttech.mobile.api.core.http.TradeParam;
 import com.opsmarttech.mobile.api.core.utils.QRCodeUtil;
-import com.opsmarttech.mobile.demo.adapter.HbfqListAdapter;
+import com.opsmarttech.mobile.R;
+import com.opsmarttech.mobile.adapter.HbfqListAdapter;
 import com.opsmarttech.mobile.service.Hbfq;
 
 import org.json.JSONException;
@@ -620,7 +621,7 @@ public class ReceivablesActivity extends AppCompatActivity {
         @Override
         public void run() {
 
-            JSONObject jsonObject = Hbfq.query(ReceivablesActivity.this, outTradeNo);
+            JSONObject jsonObject = Hbfq.query(ReceivablesActivity.this, outTradeNo, "");
             Message msg = mUIHandler.obtainMessage();
             msg.what = 0x3;
             msg.obj = jsonObject;

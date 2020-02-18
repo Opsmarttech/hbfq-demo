@@ -1,4 +1,4 @@
-package com.opsmarttech.mobile.demo;
+package com.opsmarttech.mobile.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.opsmarttech.mobile.api.core.constant.Constants;
 import com.opsmarttech.mobile.api.core.http.TradeParam;
 import com.opsmarttech.mobile.api.core.utils.QRCodeUtil;
+import com.opsmarttech.mobile.R;
 import com.opsmarttech.mobile.service.Hbfq;
 
 import org.json.JSONException;
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         public void run() {
 
-            JSONObject jsonObject = Hbfq.query(MainActivity.this, outTradeNo);
+            JSONObject jsonObject = Hbfq.query(MainActivity.this, outTradeNo, "001");
 
             Message msg = myHandelr.obtainMessage();
             msg.what = 0x3;
