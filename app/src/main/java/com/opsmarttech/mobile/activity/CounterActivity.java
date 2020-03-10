@@ -1,16 +1,12 @@
 package com.opsmarttech.mobile.activity;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -26,15 +22,9 @@ import com.opsmarttech.mobile.MyApplication;
 import com.opsmarttech.mobile.R;
 import com.opsmarttech.mobile.adapter.InsNumAdapter;
 import com.opsmarttech.mobile.api.core.constant.Constants;
-import com.opsmarttech.mobile.api.core.http.TradeParam;
-import com.opsmarttech.mobile.service.Hbfq;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 public class CounterActivity extends AppCompatActivity {
 
@@ -60,6 +50,7 @@ public class CounterActivity extends AppCompatActivity {
     private int mCheckedInsNum;//分期数
     private float mPerInsVal;//每期金额
     private float mPerInsSer;//每期手续费
+    private Boolean isSellerPercnet;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,6 +150,7 @@ public class CounterActivity extends AppCompatActivity {
                 mPerInsSer = mInsNumAdapter.mCurrentSv;
                 mPerInsVal = mInsNumAdapter.mCurrentMy;
                 mCheckedInsNum = mInsNumAdapter.mCurrentCheckIndex;
+                isSellerPercnet = mInsNumAdapter.mCurrentPercent.get(mCheckedInsNum);
 
                 Intent intent = new Intent(MyApplication.getContext(), StatsActivity.class);
                 switch (mCurrentTradeType) {
@@ -169,12 +161,14 @@ public class CounterActivity extends AppCompatActivity {
                         intent.putExtra("insNum", mCheckedInsNum);
                         intent.putExtra("perInsSer", mPerInsSer);
                         intent.putExtra("perInsVal", mPerInsVal);
+                        intent.putExtra("sellerPercent", isSellerPercnet);
                         break;
                     case Constants.TRADE_TYPE_LBF:
                         intent.putExtra("totalPay", mEditText.getText().toString());
                         intent.putExtra("tradType", mCurrentTradeType);
                         intent.putExtra("payType", mCurrentPayType);
                         intent.putExtra("insNum", mCheckedInsNum);
+                        intent.putExtra("sellerPercent", isSellerPercnet);
                         break;
                 }
                 startActivity(intent);

@@ -13,6 +13,7 @@ import com.opsmarttech.mobile.R;
 import com.opsmarttech.mobile.api.core.constant.Constants;
 import com.opsmarttech.mobile.util.LogUtil;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class InsNumAdapter extends BaseAdapter {
     private String mCurrentTradeType;
     private float mTotalPayfor;
     private HashMap<Integer, Float> mCurrentPhase;
+    public HashMap<Integer, Boolean> mCurrentPercent;
 
     public int mCurrentCheckIndex = 6;
     public float mCurrentMy;
@@ -40,35 +42,32 @@ public class InsNumAdapter extends BaseAdapter {
         mContext = MyApplication.getContext();
         mNumList = new ArrayList<>();
         mCurrentPhase = new HashMap<>();
+        mCurrentPercent = new HashMap<>();
         mMerChantType = merChantType;
         mTotalPayfor = totalPayfor;
 
         try {
             mCurrentTradeType = merChantType.getString("tradeType");
-            switch (mCurrentTradeType) {
-                case Constants.TRADE_TYPE_HB:
-                    boolean exempt = merChantType.getInt("hbfqSellerPercent") == 100 ? true : false;
-                    for(String num : merChantType.getString("hbfqNum").split(",")) {
-                        mNumList.add(Integer.parseInt(num));
-                        switch (num) {
-                            case "3":
-                                mCurrentPhase.put(Integer.parseInt(num), exempt ? 0.00f : Constants.HB_PHASE_3_PERCENT);
-                                break;
-                            case "6":
-                                mCurrentPhase.put(Integer.parseInt(num), exempt ? 0.00f : Constants.HB_PHASE_6_PERCENT);
-                                break;
-                            case "12":
-                                mCurrentPhase.put(Integer.parseInt(num), exempt ? 0.00f : Constants.HB_PHASE_12_PERCENT);
-                                break;
-                        }
-                    }
-                    break;
-                case Constants.TRADE_TYPE_LBF:
-                    for(String num : merChantType.getString("lbffqNum").split(",")) {
-                        mNumList.add(Integer.parseInt(num));
-                        mCurrentPhase.put(Integer.parseInt(num), 0.00f);
-                    }
-                    break;
+            JSONArray installmentSetArr = new JSONArray(merChantType.getString("installmentSet"));
+            for(int i = 0; i < installmentSetArr.length(); i ++) {
+                JSONObject set = installmentSetArr.getJSONObject(i);
+                Integer term = set.getInt("term");
+                Integer state = set.getInt("state");
+                if(state.intValue() <= 0) continue;
+                boolean exempt = set.getInt("percent") == 100 ? true : false;
+                mNumList.add(term);
+                switch (term.intValue()) {
+                    case 3:
+                        mCurrentPhase.put(term, exempt ? 0.00f : Constants.HB_PHASE_3_PERCENT);
+                        break;
+                    case 6:
+                        mCurrentPhase.put(term, exempt ? 0.00f : Constants.HB_PHASE_6_PERCENT);
+                        break;
+                    case 12:
+                        mCurrentPhase.put(term, exempt ? 0.00f : Constants.HB_PHASE_12_PERCENT);
+                        break;
+                }
+                mCurrentPercent.put(term, exempt);
             }
         } catch (Exception e) {
             LogUtil.e(TAG, e.toString());
@@ -115,11 +114,8 @@ public class InsNumAdapter extends BaseAdapter {
             cellHolder = (CellHolder) convertView.getTag();
         }
 
-        float sv = mTotalPayfor * mCurrentPhase.get(sep) / 3.0f;
+        float sv = mTotalPayfor * mCurrentPhase.get(sep) / sep;
         float my = mTotalPayfor / sep;
-
-        mCurrentMy = my;
-        mCurrentSv = sv;
 
         cellHolder.times = sep;
         cellHolder.timesTxv.setText(sep.intValue() + " 期");
@@ -128,6 +124,8 @@ public class InsNumAdapter extends BaseAdapter {
 
         if(sep == mCurrentCheckIndex) {
             cellHolder.checkImgv.setImageResource(R.drawable.checked);
+            mCurrentMy = my;
+            mCurrentSv = sv;
         } else {
             cellHolder.checkImgv.setImageResource(R.drawable.unchecked);
         }

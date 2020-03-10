@@ -110,6 +110,7 @@ public class StatsActivity extends AppCompatActivity {
             mPayType = getIntent().getExtras().getString("payType");
             mPerInSer = getIntent().getExtras().getFloat("perInsSer");
             mPerInsVal = getIntent().getExtras().getFloat("perInsVal");
+            mHbfqSellerPercent = getIntent().getExtras().getBoolean("sellerPercent") ? 100 : 0;
             mInsNum = getIntent().getExtras().getInt("insNum");
             mMainHint.setText(R.string.state_hint_wait_user_pay);
             JSONObject merChant = new JSONObject(mSharedPreferences.getString(mTradeType, ""));
@@ -119,7 +120,7 @@ public class StatsActivity extends AppCompatActivity {
             mCloseBtnv.setOnClickListener(mVClk);
 
             if(Constants.TRADE_TYPE_HB.equals(mTradeType)) {
-                mHbfqSellerPercent = merChant.getInt("hbfqSellerPercent");
+                //mHbfqSellerPercent = merChant.getInt("hbfqSellerPercent");
                 if("scan".equals(mPayType)) {
                     Intent intent = new Intent("com.summi.scan");
                     intent.setPackage("com.sunmi.sunmiqrcodescanner");
@@ -224,7 +225,7 @@ public class StatsActivity extends AppCompatActivity {
                         JSONObject merchant = new JSONObject(mSharedPreferences.getString(mTradeType, ""));
                         TradeParam tradeParam = new TradeParam();
                         tradeParam.put("totalMount", mTotalAmount);
-                        tradeParam.put("hbfqSellerPercent", String.valueOf(merchant.getInt("hbfqSellerPercent")));
+                        tradeParam.put("hbfqSellerPercent", String.valueOf(mHbfqSellerPercent));
                         tradeParam.put("hbfqPhaseNum", String.valueOf(mInsNum));
                         tradeParam.put("authCode", _authCode);/**authCode 为买家手机付款码数字，买家被扫模式下该参数必选*/
                         tradeParam.put("merchantType", mTradeType);
