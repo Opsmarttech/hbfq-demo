@@ -171,10 +171,12 @@ public class StatsActivity extends AppCompatActivity {
                     mMainHint.setText(R.string.state_hint_wait_qr_loading);
                     new Thread(() -> {
                         try {
+                            int txnAmt = (int)(Float.valueOf(mTotalAmount) * 100);
                             TradeParam tradeParam = new TradeParam();
-                            tradeParam.put("totalAmount", mTotalAmount);
-                            tradeParam.put("insNum", String.valueOf(mInsNum));
-                            tradeParam.put("lbfStoreId", merChant.getString("merId"));
+                            tradeParam.put("txnAmt", String.valueOf(txnAmt));
+                            tradeParam.put("txnTerms", String.valueOf(mInsNum));
+                            tradeParam.put("storeId", merChant.getString("merId"));
+                            tradeParam.put("merchantType", Constants.TRADE_TYPE_HB);
                             JSONObject jsonObject = Hbfq.formToPay(MyApplication.getContext(), tradeParam);
                             Message msg = mUIHandler.obtainMessage();
                             msg.what = 0x2;
